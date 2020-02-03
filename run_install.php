@@ -46,11 +46,11 @@ function runInstall(string $folder, string $database)
 
     $process->run(null, getEnvVars($database));
 
+    echo $process->getOutput();
+
     if ($process->getExitCode() !== 0) {
         throw new RuntimeException('Installation command has failed');
     }
-
-    echo $process->getOutput();
 }
 
 function compareDatabases(string $leftDatabase, string $rightDatabase)
@@ -159,9 +159,9 @@ function installComposer(string $folder)
 
     $process->run();
 
+    echo $process->getOutput();
+
     if ($process->getExitCode() !== 0) {
         throw new RuntimeException('Composer command failed');
     }
-
-    echo $process->getOutput();
 }
