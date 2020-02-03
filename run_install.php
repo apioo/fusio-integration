@@ -41,13 +41,16 @@ function runInstall(string $folder, string $database)
     echo '#################################################' . "\n";
 
     $process = new \Symfony\Component\Process\Process(['php', 'bin/fusio', 'install', '--no-interaction'], $folder);
+
+    echo '> ' . $process->getCommandLine() . "\n";
+
     $process->run(null, getEnvVars($database));
 
     if ($process->getExitCode() !== 0) {
         throw new RuntimeException('Installation command has failed');
     }
 
-	echo $process->getOutput();
+    echo $process->getOutput();
 }
 
 function compareDatabases(string $leftDatabase, string $rightDatabase)
@@ -151,9 +154,14 @@ function installComposer(string $folder)
 {
     $process = new \Symfony\Component\Process\Process(['composer', 'install', '--no-interaction'], $folder);
     $process->setTimeout(3600 * 15);
+
+    echo '> ' . $process->getCommandLine() . "\n";
+
     $process->run();
 
     if ($process->getExitCode() !== 0) {
         throw new RuntimeException('Composer command failed');
     }
+
+    echo $process->getOutput();
 }
