@@ -11,3 +11,4 @@ install:
   - composer install
 script:
   - php run_install.php
+  - php marketplace_check.php

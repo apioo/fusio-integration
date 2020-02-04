@@ -3,6 +3,7 @@
         "symfony/process": "^4.3",
         "guzzlehttp/guzzle": "^6.5",
         "doctrine/dbal": "^2.10",
-        "symfony/yaml": "^5.0"
+        "symfony/yaml": "^5.0",
+        "phpunit/phpunit": "^8.5"
     }
 }
