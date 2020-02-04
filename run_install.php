@@ -152,6 +152,14 @@ function newConnection(string $database): \Doctrine\DBAL\Connection
 
 function installComposer(string $folder)
 {
+    // rename composer lock to install the latest deps
+    rename($folder . '/composer.lock', $folder . '/composer.lock.old');
+
+    // update composer json
+    $composer = file_get_contents($folder . '/composer.json');
+    $composer = preg_replace('~"fusio/impl": "(\^\d.\d)",~ims', '"fusio/impl": "dev-master",', $composer);
+    file_put_contents($folder . '/composer.json', $composer);
+
     $process = new \Symfony\Component\Process\Process(['composer', 'install', '--no-interaction'], $folder);
     $process->setTimeout(3600 * 15);
 
