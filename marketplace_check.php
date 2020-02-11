@@ -4,6 +4,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 $apps = \Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__ . '/master/marketplace.yaml'));
 $httpClient = new \GuzzleHttp\Client(['verify' => false]);
+$error = false;
 
 foreach ($apps as $name => $app) {
     echo 'Check app ' . $name . "\n";
@@ -24,6 +25,11 @@ foreach ($apps as $name => $app) {
         \Webmozart\Assert\Assert::eq($app['sha1Hash'], sha1_file($file));
         \Webmozart\Assert\Assert::true((new \ZipArchive())->open($file, \ZipArchive::CHECKCONS));
     } catch (\InvalidArgumentException $e) {
+        $error = true;
         echo $e->getMessage() . "\n";
     }
+}
+
+if ($error) {
+    exit(1);
 }
