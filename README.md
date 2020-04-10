@@ -1,8 +1,9 @@
 
 # Fusio-Integration
 
-This repo contains some integration tests for Fusio. More information about
-Fusio at https://www.fusio-project.org/
+This repo contains some integration tests for Fusio. If you are interested at
+the results you can take a look at [Travis-CI](https://travis-ci.org/github/apioo/fusio-integration).
+More information about Fusio at https://www.fusio-project.org/
 
 ## Upgrade
 
@@ -13,5 +14,7 @@ should be no difference.
 
 ## Marketplace
 
-We check whether all apps at the marketplace are installable and have a correct
-hash.
+The marketplace provides a list of apps which are installable through the Fusio
+backend, it is based on a simple [YAML file](https://github.com/apioo/fusio/blob/master/marketplace.yaml).
+This test checks whether all apps at the marketplace are installable and have a
+correct hash.
