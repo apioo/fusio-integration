@@ -2,8 +2,15 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-$apps = \Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__ . '/master/marketplace.yaml'));
 $httpClient = new \GuzzleHttp\Client(['verify' => false]);
+
+$response = $httpClient->get('https://www.fusio-project.org/marketplace.yaml');
+if ($response->getStatusCode() !== 200) {
+    echo 'Could not fetch marketplace yaml';
+    exit(1);
+}
+
+$apps = \Symfony\Component\Yaml\Yaml::parse((string) $response->getBody());
 $error = false;
 
 foreach ($apps as $name => $app) {
