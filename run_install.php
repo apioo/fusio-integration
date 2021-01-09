@@ -6,7 +6,7 @@ const DATABASE = 'fusio';
 const DATABASE_MASTER = 'fusio_master';
 
 $releases = fetchReleases();
-$releases = array_slice($releases, 0, 5);
+$releases = getReleases($releases, 'v2.0.0-RC1');
 $releases = array_reverse($releases);
 
 foreach ($releases as $release) {
@@ -123,6 +123,13 @@ function fetchReleases(): array
     $response = $httpClient->get('https://api.github.com/repos/apioo/fusio/releases');
 
     return json_decode((string) $response->getBody(), true);
+}
+
+function getReleases(array $releases, string $minVersion): array
+{
+    return array_filter($releases, function(array $release) use ($minVersion){
+        return version_compare($release['tag_name'], $minVersion) !== -1;
+    });
 }
 
 function getEnvVars(string $database): array
