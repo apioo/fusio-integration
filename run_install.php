@@ -6,7 +6,7 @@ const DATABASE = 'fusio';
 const DATABASE_MASTER = 'fusio_master';
 
 $releases = fetchReleases();
-$releases = getReleases($releases, 'v2.0.0-RC2');
+$releases = getReleases($releases, 'v2.0.0');
 $releases = array_reverse($releases);
 
 foreach ($releases as $release) {
