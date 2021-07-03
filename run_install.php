@@ -140,7 +140,7 @@ function getEnvVars(string $database): array
     $env['FUSIO_ENV'] = 'dev';
     $env['FUSIO_DB_NAME'] = $database;
     $env['FUSIO_DB_USER'] = 'root';
-    $env['FUSIO_DB_PW'] = '';
+    $env['FUSIO_DB_PW'] = 'test1234';
     $env['FUSIO_DB_HOST'] = 'localhost';
 
     return $env;
@@ -151,7 +151,7 @@ function newConnection(string $database): \Doctrine\DBAL\Connection
     return \Doctrine\DBAL\DriverManager::getConnection([
         'dbname' => $database,
         'user' => 'root',
-        'password' => '',
+        'password' => 'test1234',
         'host' => 'localhost',
         'driver' => 'pdo_mysql',
     ]);
