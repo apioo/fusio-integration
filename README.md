@@ -2,7 +2,7 @@
 # Fusio-Integration
 
 This repo contains some integration tests for Fusio. If you are interested at
-the results you can take a look at [Travis-CI](https://travis-ci.org/github/apioo/fusio-integration).
+the results you can take a look at the [Actions](https://github.com/apioo/fusio-integration/actions).
 More information about Fusio at https://www.fusio-project.org/
 
 ## Upgrade
