@@ -164,7 +164,7 @@ function installComposer(string $folder)
 
     // update composer json
     $composer = file_get_contents($folder . '/composer.json');
-    $composer = preg_replace('~"fusio/impl": "(\^\d.\d)",~ims', '"fusio/impl": "dev-master",', $composer);
+    $composer = preg_replace('~"fusio/impl": "(\^\d.\d)",~ims', '"fusio/impl": "5.2",', $composer);
     file_put_contents($folder . '/composer.json', $composer);
 
     $process = new \Symfony\Component\Process\Process(['composer', 'install', '--no-interaction'], $folder);
