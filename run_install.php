@@ -46,7 +46,7 @@ function runInstall(string $folder, string $database)
 
     $process->run(null, getEnvVars($database));
 
-    echo $process->getOutput();
+    echo $process->getOutput() . "\n";
 
     if ($process->getExitCode() !== 0) {
         echo 'Error:' . "\n";
