@@ -49,6 +49,9 @@ function runInstall(string $folder, string $database)
     echo $process->getOutput();
 
     if ($process->getExitCode() !== 0) {
+        echo 'Error:' . "\n";
+        echo $process->getErrorOutput() . "\n";
+
         throw new RuntimeException('Installation command has failed');
     }
 }
