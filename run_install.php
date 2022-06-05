@@ -32,6 +32,10 @@ runInstall($folder, DATABASE_MASTER);
 // compare databases
 compareDatabases(DATABASE, DATABASE_MASTER);
 
+// run SDK generation to check whether all routes and schemas are clean
+runSDKGeneration($folder, 'backend');
+runSDKGeneration($folder, 'consumer');
+
 echo 'Migration was executed successful!';
 
 function runInstall(string $folder, string $database)
@@ -72,6 +76,28 @@ function compareDatabases(string $leftDatabase, string $rightDatabase)
         }
 
         throw new RuntimeException('Migrated database differs from a fresh installation');
+    }
+}
+
+function runSDKGeneration(string $folder, string $filter)
+{
+    echo '#################################################' . "\n";
+    echo '## Starting SDK generation ' . $folder . "\n";
+    echo '#################################################' . "\n";
+
+    $process = new \Symfony\Component\Process\Process(['php', 'bin/fusio', 'api:generate', '--format', 'client-php', '--filter', $filter, '--config', 'Fusio\\Sdk\\' . ucfirst($filter), __DIR__], $folder);
+
+    echo '> ' . $process->getCommandLine() . "\n";
+
+    $process->run();
+
+    echo $process->getOutput() . "\n";
+
+    if ($process->getExitCode() !== 0) {
+        echo 'Error:' . "\n";
+        echo $process->getErrorOutput() . "\n";
+
+        throw new RuntimeException('SDK generation command has failed');
     }
 }
 
