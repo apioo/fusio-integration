@@ -4,7 +4,9 @@ require __DIR__ . '/vendor/autoload.php';
 
 $httpClient = new \GuzzleHttp\Client(['verify' => false]);
 
-$response = $httpClient->get('https://www.fusio-project.org/marketplace.yaml');
+$response = $httpClient->get('https://www.fusio-project.org/marketplace.yaml', [
+    'timeout' => 16,
+]);
 if ($response->getStatusCode() !== 200) {
     echo 'Could not fetch marketplace yaml';
     exit(1);
