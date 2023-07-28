@@ -2,11 +2,11 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-const DATABASE = 'fusio';
-const DATABASE_MASTER = 'fusio_master';
+const DATABASE = 'pdo-mysql://root:test1234@localhost/fusio';
+const DATABASE_MASTER = 'pdo-mysql://root:test1234@localhost/fusio_master';
 
 $releases = fetchReleases();
-$releases = getReleases($releases, 'v3.0.0');
+$releases = getReleases($releases, 'v4.0.0');
 $releases = array_reverse($releases);
 
 foreach ($releases as $release) {
@@ -65,8 +65,8 @@ function compareDatabases(string $leftDatabase, string $rightDatabase)
     $migratedConnection = newConnection($leftDatabase);
     $newConnection = newConnection($rightDatabase);
 
-    $migratedSchema = $migratedConnection->getSchemaManager()->createSchema();
-    $newSchema = $newConnection->getSchemaManager()->createSchema();
+    $migratedSchema = $migratedConnection->createSchemaManager()->introspectSchema();
+    $newSchema = $newConnection->createSchemaManager()->introspectSchema();
 
     $queries = $migratedSchema->getMigrateToSql($newSchema, $newConnection->getDatabasePlatform());
 
@@ -164,26 +164,18 @@ function getReleases(array $releases, string $minVersion): array
 function getEnvVars(string $database): array
 {
     $env = [];
-    $env['FUSIO_PROJECT_KEY'] = '42eec18ffdbffc9fda6110dcc705d6ce';
-    $env['FUSIO_URL'] = 'http://127.0.0.1';
-    $env['FUSIO_ENV'] = 'dev';
-    $env['FUSIO_DB_NAME'] = $database;
-    $env['FUSIO_DB_USER'] = 'root';
-    $env['FUSIO_DB_PW'] = 'test1234';
-    $env['FUSIO_DB_HOST'] = 'localhost';
+    $env['APP_PROJECT_KEY'] = '42eec18ffdbffc9fda6110dcc705d6ce';
+    $env['APP_URL'] = 'http://127.0.0.1';
+    $env['APP_ENV'] = 'dev';
+    $env['APP_CONNECTION'] = $database;
 
     return $env;
 }
 
 function newConnection(string $database): \Doctrine\DBAL\Connection
 {
-    return \Doctrine\DBAL\DriverManager::getConnection([
-        'dbname' => $database,
-        'user' => 'root',
-        'password' => 'test1234',
-        'host' => 'localhost',
-        'driver' => 'pdo_mysql',
-    ]);
+    $params = (new \Doctrine\DBAL\Tools\DsnParser())->parse($database);
+    return \Doctrine\DBAL\DriverManager::getConnection($params);
 }
 
 function installComposer(string $folder)
