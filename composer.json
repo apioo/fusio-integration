@@ -1,9 +1,9 @@
 {
     "require": {
-        "symfony/process": "^4.3",
-        "guzzlehttp/guzzle": "^6.5",
-        "doctrine/dbal": "^2.10",
-        "symfony/yaml": "^5.0",
-        "phpunit/phpunit": "^8.5"
+        "symfony/process": "^6.0",
+        "guzzlehttp/guzzle": "^7.0",
+        "doctrine/dbal": "^3.6",
+        "symfony/yaml": "^6.0",
+        "phpunit/phpunit": "^9.0"
     }
 }
