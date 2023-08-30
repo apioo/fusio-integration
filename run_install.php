@@ -44,7 +44,7 @@ function runInstall(string $folder, string $database)
     echo '## Starting installation ' . $folder . "\n";
     echo '#################################################' . "\n";
 
-    $process = new \Symfony\Component\Process\Process(['php', 'bin/fusio', 'install', '--no-interaction'], $folder);
+    $process = new \Symfony\Component\Process\Process(['php', 'bin/fusio', 'migrate', '--no-interaction'], $folder);
 
     echo '> ' . $process->getCommandLine() . "\n";
 
@@ -85,7 +85,9 @@ function runSDKGeneration(string $folder, string $filter)
     echo '## Starting SDK generation ' . $folder . "\n";
     echo '#################################################' . "\n";
 
-    $process = new \Symfony\Component\Process\Process(['php', 'bin/fusio', 'api:generate', '--format', 'client-php', '--filter', $filter, '--config', 'Fusio\\Sdk\\' . ucfirst($filter), __DIR__], $folder);
+    mkdir($folder . '/output');
+
+    $process = new \Symfony\Component\Process\Process(['php', 'bin/fusio', 'generate:sdk', '--filter', $filter], $folder);
 
     echo '> ' . $process->getCommandLine() . "\n";
 
