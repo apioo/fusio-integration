@@ -33,6 +33,7 @@ runInstall($folder, DATABASE_MASTER);
 compareDatabases(DATABASE, DATABASE_MASTER);
 
 // run SDK generation to check whether all routes and schemas are clean
+mkdir($folder . '/output');
 runSDKGeneration($folder, 'backend');
 runSDKGeneration($folder, 'consumer');
 
@@ -84,8 +85,6 @@ function runSDKGeneration(string $folder, string $filter)
     echo '#################################################' . "\n";
     echo '## Starting SDK generation ' . $folder . "\n";
     echo '#################################################' . "\n";
-
-    mkdir($folder . '/output');
 
     $process = new \Symfony\Component\Process\Process(['php', 'bin/fusio', 'generate:sdk', '--filter', $filter], $folder);
 
