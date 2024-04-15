@@ -2,9 +2,14 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-const DATABASE = 'pdo-mysql://root:test1234@localhost/fusio';
-const DATABASE_MASTER = 'pdo-mysql://root:test1234@localhost/fusio_master';
+define('DATABASE', getenv('APP_CONNECTION'));
+define('DATABASE_MASTER', getenv('APP_CONNECTION') . '_master');
 
+// create master db
+$connection = newConnection(DATABASE);
+$connection->createSchemaManager()->createDatabase('fusio_master');
+
+// fetch releases
 $releases = fetchReleases();
 $releases = getReleases($releases, 'v4.0.0');
 $releases = array_reverse($releases);
