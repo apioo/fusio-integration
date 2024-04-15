@@ -181,6 +181,11 @@ function newConnection(string $database): \Doctrine\DBAL\Connection
 
 function installComposer(string $folder)
 {
+    $composerFile = $folder . '/composer.json';
+    $data = \json_decode(\file_get_contents($composerFile));
+    $data->require->{'fusio/impl'} = 'dev-master';
+    \file_put_contents($composerFile, \json_encode($data));
+
     $process = new \Symfony\Component\Process\Process(['composer', 'install', '--no-interaction'], $folder);
     $process->setTimeout(3600 * 15);
 
