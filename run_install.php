@@ -191,11 +191,7 @@ function installComposer(string $folder)
 
     echo '> ' . $process->getCommandLine() . "\n";
 
-    $process->run();
+    $process->mustRun();
 
     echo $process->getOutput();
-
-    if ($process->getExitCode() !== 0) {
-        throw new RuntimeException('Composer command failed');
-    }
 }
