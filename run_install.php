@@ -9,6 +9,8 @@ define('DATABASE_MASTER', getenv('APP_CONNECTION') . '_master');
 $connection = newConnection(DATABASE);
 $connection->createSchemaManager()->createDatabase('fusio_master');
 
+echo 'Run on platform: ' . get_class($connection->getDatabasePlatform()) . "\n";
+
 // fetch releases
 $releases = fetchReleases();
 $releases = getReleases($releases, 'v4.0.0');
@@ -54,16 +56,9 @@ function runInstall(string $folder, string $database)
 
     echo '> ' . $process->getCommandLine() . "\n";
 
-    $process->run(null, getEnvVars($database));
+    $process->mustRun(null, getEnvVars($database));
 
     echo $process->getOutput() . "\n";
-
-    if ($process->getExitCode() !== 0) {
-        echo 'Error:' . "\n";
-        echo $process->getErrorOutput() . "\n";
-
-        throw new RuntimeException('Installation command has failed');
-    }
 }
 
 function compareDatabases(string $leftDatabase, string $rightDatabase)
@@ -95,16 +90,9 @@ function runSDKGeneration(string $folder, string $filter)
 
     echo '> ' . $process->getCommandLine() . "\n";
 
-    $process->run();
+    $process->mustRun();
 
     echo $process->getOutput() . "\n";
-
-    if ($process->getExitCode() !== 0) {
-        echo 'Error:' . "\n";
-        echo $process->getErrorOutput() . "\n";
-
-        throw new RuntimeException('SDK generation command has failed');
-    }
 }
 
 function fetchAsset(array $assets, string $tagName): string
