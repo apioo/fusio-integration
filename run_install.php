@@ -186,6 +186,9 @@ function installComposer(string $folder)
     $data->require->{'fusio/impl'} = 'dev-master';
     \file_put_contents($composerFile, \json_encode($data));
 
+    $composerLock = $folder . '/composer.lock';
+    \unlink($composerLock);
+
     $process = new \Symfony\Component\Process\Process(['composer', 'install', '--no-interaction'], $folder);
     $process->setTimeout(3600 * 15);
 
